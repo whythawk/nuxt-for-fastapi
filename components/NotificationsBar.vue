@@ -113,18 +113,6 @@ export default class RecoverPassword extends Vue {
 
   @Watch("firstNotification")
   public async onNotificationChange(newNotification: AppNotification | false) {
-    const nN = (newNotification && newNotification.content) || false
-    // const oN = (oldNotification && oldNotification.content) || false
-    const cN =
-      (this.currentNotification && this.currentNotification.content) || false
-    console.log(
-      "Initial: new - " +
-        nN +
-        " | current - " +
-        cN +
-        " | show - " +
-        this.showNotification
-    )
     if (newNotification !== this.currentNotification) {
       this.setNotification(newNotification)
       if (newNotification) {

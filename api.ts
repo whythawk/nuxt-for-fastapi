@@ -3,6 +3,7 @@ import {
   IUserProfile,
   IUserProfileUpdate,
   IUserProfileCreate,
+  IUserOpenProfileCreate,
 } from "./interfaces"
 
 function authHeaders(token: string) {
@@ -22,6 +23,9 @@ export const api = {
       `${process.env.apiUrl}/api/v1/login/access-token`,
       params
     )
+  },
+  async createMe(data: IUserOpenProfileCreate) {
+    return await axios.post(`${process.env.apiUrl}/api/v1/users/open`, data)
   },
   async getMe(token: string) {
     return await axios.get<IUserProfile>(

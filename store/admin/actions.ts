@@ -58,8 +58,7 @@ export default {
       const response = (
         await Promise.all([
           api.createUser(rootState.main.token, payload),
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          await new Promise<void>((resolve, reject) =>
+          await new Promise<void>((resolve) =>
             setTimeout(() => resolve(), 500)
           ),
         ])

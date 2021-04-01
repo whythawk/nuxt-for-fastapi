@@ -16,7 +16,6 @@
             </h2>
           </div>
           <form class="mt-8 space-y-6" action="#" method="POST">
-            <input type="hidden" name="remember" value="true" />
             <div class="rounded-md shadow-sm -space-y-px">
               <div>
                 <label for="email-address" class="sr-only">Email address</label>
@@ -48,19 +47,13 @@
               </div>
             </div>
             <div class="flex items-center justify-between">
-              <div class="flex items-center">
-                <input
-                  id="remember_me"
-                  name="remember_me"
-                  type="checkbox"
-                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                />
-                <label
-                  for="remember_me"
-                  class="ml-2 block text-sm text-gray-900"
+              <div class="text-sm">
+                <NuxtLink
+                  to="/register"
+                  class="font-medium text-indigo-600 hover:text-indigo-500"
                 >
-                  Remember me
-                </label>
+                  Create an account
+                </NuxtLink>
               </div>
 
               <div class="text-sm">
@@ -108,7 +101,9 @@
 <script lang="ts">
 import { Action, Component, Mutation, Vue } from "nuxt-property-decorator"
 
-@Component
+@Component({
+  middleware: "anonymous",
+})
 export default class Login extends Vue {
   @Mutation("helpers/setHeadingTitle") setHeadingTitle
   @Action("main/logIn") logIn

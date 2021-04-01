@@ -194,7 +194,7 @@
 import { Component, Vue, Getter, Action } from "nuxt-property-decorator"
 
 @Component
-export default class UserProfile extends Vue {
+export default class LandingPage extends Vue {
   @Getter("main/isLoggedIn") isLoggedIn
   @Action("main/logOut") userLogOut
   public isOpen: boolean = false

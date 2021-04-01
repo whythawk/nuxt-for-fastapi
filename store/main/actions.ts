@@ -1,6 +1,7 @@
 import { api } from "@/api"
 import { getLocalToken, removeLocalToken, saveLocalToken } from "@/utils"
 import { AxiosError } from "axios"
+import { IUserOpenProfileCreate } from "@/interfaces"
 import { AppNotification } from "./state"
 
 export default {
@@ -60,6 +61,27 @@ export default {
       await dispatch("checkApiError", error)
     }
   },
+  async createUserProfile(
+    { commit, dispatch },
+    payload: IUserOpenProfileCreate
+  ) {
+    try {
+      const loadingNotification = { content: "Creating...", showProgress: true }
+      await commit("addNotification", loadingNotification)
+      await Promise.all([
+        api.createMe(payload),
+        await new Promise<void>((resolve) => setTimeout(() => resolve(), 500)),
+      ])
+      await commit("removeNotification", loadingNotification)
+      await commit("addNotification", {
+        content: "Account successfully created",
+        color: "success",
+      })
+    } catch (error) {
+      // console.log(error.response)
+      await dispatch("checkApiError", error)
+    }
+  },
   async checkLoggedIn({ commit, dispatch, state }) {
     if (!state.isLoggedIn) {
       let token = state.token
@@ -90,6 +112,7 @@ export default {
     await commit("setUserProfile", null)
   },
   async checkApiError({ dispatch }, payload: AxiosError) {
+    // console.log(payload.response)
     if (payload.response!.status === 401) {
       await dispatch("logOut")
     }

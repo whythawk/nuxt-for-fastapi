@@ -20,13 +20,15 @@
               </h2>
             </div>
 
-            <form action="#" class="mt-8 space-y-6" method="POST">
-              <div class="rounded-md shadow-sm -space-y-px">
-                <ValidationObserver>
+            <ValidationObserver v-slot="{ invalid }" immediate>
+              <form class="mt-8 space-y-6" @submit.prevent="submit">
+                <div class="rounded-md shadow-sm -space-y-px">
                   <div>
                     <ValidationProvider
                       v-slot="{ errors }"
-                      rules="confirmed:confirmation"
+                      name="password1"
+                      vid="password1"
+                      rules="confirmed:password2"
                     >
                       <label for="password1" class="sr-only"
                         >New password</label
@@ -71,7 +73,7 @@
                         <input
                           id="password1"
                           v-model="password1"
-                          name="password"
+                          name="password1"
                           type="password"
                           autocomplete="current-password"
                           placeholder="New password"
@@ -82,7 +84,11 @@
                     </ValidationProvider>
                   </div>
                   <div>
-                    <ValidationProvider v-slot="{ errors }" vid="confirmation">
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      vid="password2"
+                      name="password2"
+                    >
                       <label for="password2" class="sr-only"
                         >Confirm password</label
                       >
@@ -126,7 +132,7 @@
                         <input
                           id="password2"
                           v-model="password2"
-                          name="confirm-password"
+                          name="password2"
                           type="password"
                           autocomplete="current-password"
                           placeholder="Confirm password"
@@ -136,36 +142,36 @@
                       </div>
                     </ValidationProvider>
                   </div>
-                </ValidationObserver>
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  @click.prevent="submit"
-                >
-                  <span
-                    class="absolute left-0 inset-y-0 flex items-center pl-3"
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    :disabled="invalid"
                   >
-                    <!-- Heroicon name: solid/lock-closed -->
-                    <svg
-                      class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
+                    <span
+                      class="absolute left-0 inset-y-0 flex items-center pl-3"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                  Reset
-                </button>
-              </div>
-            </form>
+                      <!-- Heroicon name: solid/lock-closed -->
+                      <svg
+                        class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                    Reset
+                  </button>
+                </div>
+              </form>
+            </ValidationObserver>
           </div>
         </div>
       </div>
@@ -176,7 +182,9 @@
 <script lang="ts">
 import { Action, Component, Mutation, Vue } from "nuxt-property-decorator"
 
-@Component
+@Component({
+  middleware: "anonymous",
+})
 export default class ResetPassword extends Vue {
   @Action("main/resetPassword") resetPassword
   @Mutation("helpers/setHeadingTitle") setHeadingTitle

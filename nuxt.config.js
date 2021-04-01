@@ -25,6 +25,7 @@ export default {
     {
       src: "~/plugins/vee-validate",
       mode: "client",
+      ssr: false,
     },
   ],
 

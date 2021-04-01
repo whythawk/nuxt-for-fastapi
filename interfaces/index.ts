@@ -22,3 +22,9 @@ export interface IUserProfileCreate {
   is_active?: boolean
   is_superuser?: boolean
 }
+
+export interface IUserOpenProfileCreate {
+  email: string
+  full_name?: string
+  password: string
+}
