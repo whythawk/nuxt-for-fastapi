@@ -21,13 +21,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    {
-      src: "~/plugins/vee-validate",
-      mode: "client",
-      ssr: false,
-    },
-  ],
+  plugins: ["~/plugins/vee-validate"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -48,10 +42,37 @@ export default {
     "@nuxtjs/pwa",
     // https://go.nuxtjs.dev/content
     "@nuxt/content",
+    // https://i18n.nuxtjs.org/
+    "nuxt-i18n",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
+
+  // nuxt/i18n module configuration: https://i18n.nuxtjs.org/basic-usage
+  i18n: {
+    locales: ["en", "fr", "es"],
+    defaultLocale: "en",
+    vueI18n: {
+      fallbackLocale: "en",
+      messages: {
+        en: {
+          welcome: "Welcome",
+        },
+        fr: {
+          welcome: "Bienvenue",
+        },
+        es: {
+          welcome: "Bienvenido",
+        },
+      },
+    },
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: "i18n_redirected",
+      onlyOnRoot: true, // recommended
+    },
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -64,5 +85,7 @@ export default {
   content: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ["vee-validate/dist/rules"],
+  },
 }

@@ -1,10 +1,10 @@
 <template>
   <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-      <form action="#" method="POST">
-        <div class="shadow overflow-hidden rounded-md">
-          <div class="px-4 py-5 bg-white sm:p-6">
-            <ValidationObserver>
+      <ValidationObserver>
+        <form action="#" method="POST">
+          <div class="shadow overflow-hidden rounded-md">
+            <div class="px-4 py-5 bg-white sm:p-6">
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-4">
                   <ValidationProvider
@@ -55,28 +55,28 @@
                   </ValidationProvider>
                 </div>
               </div>
-            </ValidationObserver>
+            </div>
+            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+              <button type="submit" class="btn" @click.prevent="cancel">
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn btn-indigo"
+                @click.prevent="submit"
+              >
+                Update
+              </button>
+            </div>
           </div>
-          <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-            <button type="submit" class="btn" @click.prevent="cancel">
-              Cancel
-            </button>
-            <button
-              type="submit"
-              class="btn btn-indigo"
-              @click.prevent="submit"
-            >
-              Update
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </ValidationObserver>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Action, Component, Mutation, Vue } from "nuxt-property-decorator"
+import { Action, Component, Vue } from "nuxt-property-decorator"
 import { IUserProfileUpdate } from "@/interfaces"
 
 @Component({
@@ -84,7 +84,6 @@ import { IUserProfileUpdate } from "@/interfaces"
 })
 export default class UserProfileEditPassword extends Vue {
   @Action("main/updateUserProfile") updateUserProfile
-  @Mutation("helpers/setHeadingTitle") setHeadingTitle
   public password1 = ""
   public password2 = ""
 
@@ -99,8 +98,8 @@ export default class UserProfileEditPassword extends Vue {
     this.$router.push("/main/profile")
   }
 
-  created() {
-    this.setHeadingTitle("Dashboard - Change Password")
+  asyncData({ store }) {
+    store.commit("helpers/setHeadingTitle", "Dashboard - Change Password")
   }
 }
 </script>

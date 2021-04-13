@@ -99,13 +99,12 @@
 </template>
 
 <script lang="ts">
-import { Action, Component, Mutation, Vue } from "nuxt-property-decorator"
+import { Action, Component, Vue } from "nuxt-property-decorator"
 
 @Component({
   middleware: "anonymous",
 })
 export default class Login extends Vue {
-  @Mutation("helpers/setHeadingTitle") setHeadingTitle
   @Action("main/logIn") logIn
   public email: string = ""
   public password: string = ""
@@ -118,8 +117,8 @@ export default class Login extends Vue {
     this.$router.push("/main/dashboard")
   }
 
-  created() {
-    this.setHeadingTitle(null)
+  asyncData({ store }) {
+    store.commit("helpers/setHeadingTitle", null)
   }
 }
 </script>

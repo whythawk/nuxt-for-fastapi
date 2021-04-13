@@ -113,13 +113,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-  Action,
-  Getter,
-  Mutation,
-} from "nuxt-property-decorator"
+import { Component, Vue, Action, Getter } from "nuxt-property-decorator"
 
 @Component({
   middleware: "has-admin-access",
@@ -127,11 +121,13 @@ import {
 export default class AdminDashboard extends Vue {
   @Action("admin/getUsers") getUsers
   @Getter("admin/adminUsers") userList
-  @Mutation("helpers/setHeadingTitle") setHeadingTitle
 
   created() {
-    this.setHeadingTitle("Administration")
     this.getUsers()
+  }
+
+  asyncData({ store }) {
+    store.commit("helpers/setHeadingTitle", "Administration")
   }
 }
 </script>

@@ -18,14 +18,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Getter, Mutation } from "nuxt-property-decorator"
+import { Component, Vue, Getter } from "nuxt-property-decorator"
 
 @Component({
   middleware: "authenticated",
 })
 export default class Dashboard extends Vue {
   @Getter("main/userProfile") userProfile
-  @Mutation("helpers/setHeadingTitle") setHeadingTitle
 
   get greetedUser() {
     if (this.userProfile) {
@@ -37,8 +36,8 @@ export default class Dashboard extends Vue {
     }
   }
 
-  created() {
-    this.setHeadingTitle("Dashboard")
+  asyncData({ store }) {
+    store.commit("helpers/setHeadingTitle", "Dashboard")
   }
 }
 </script>

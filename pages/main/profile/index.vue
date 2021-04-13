@@ -65,17 +65,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Getter, Mutation } from "nuxt-property-decorator"
+import { Component, Vue, Getter } from "nuxt-property-decorator"
 
 @Component({
   middleware: "authenticated",
 })
 export default class UserProfile extends Vue {
   @Getter("main/userProfile") userProfile
-  @Mutation("helpers/setHeadingTitle") setHeadingTitle
 
-  created() {
-    this.setHeadingTitle("Dashboard")
+  asyncData({ store }) {
+    store.commit("helpers/setHeadingTitle", "Dashboard")
   }
 }
 </script>

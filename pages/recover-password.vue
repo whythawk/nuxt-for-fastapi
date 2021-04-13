@@ -75,12 +75,11 @@
 </template>
 
 <script lang="ts">
-import { Action, Component, Mutation, Vue } from "nuxt-property-decorator"
+import { Action, Component, Vue } from "nuxt-property-decorator"
 
 @Component
 export default class RecoverPassword extends Vue {
   @Action("main/passwordRecovery") passwordRecovery
-  @Mutation("helpers/setHeadingTitle") setHeadingTitle
   public username: string = ""
 
   public cancel() {
@@ -91,8 +90,8 @@ export default class RecoverPassword extends Vue {
     this.passwordRecovery({ username: this.username })
   }
 
-  created() {
-    this.setHeadingTitle(null)
+  asyncData({ store }) {
+    store.commit("helpers/setHeadingTitle", null)
   }
 }
 </script>

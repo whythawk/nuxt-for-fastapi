@@ -66,13 +66,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Action,
-  Component,
-  Getter,
-  Mutation,
-  Vue,
-} from "nuxt-property-decorator"
+import { Action, Component, Getter, Vue } from "nuxt-property-decorator"
 import { IUserProfileUpdate } from "@/interfaces"
 
 @Component({
@@ -81,12 +75,10 @@ import { IUserProfileUpdate } from "@/interfaces"
 export default class UserProfileEdit extends Vue {
   @Getter("main/userProfile") userProfile
   @Action("main/updateUserProfile") updateUserProfile
-  @Mutation("helpers/setHeadingTitle") setHeadingTitle
   public fullName: string = ""
   public email: string = ""
 
   public created() {
-    this.setHeadingTitle("Dashboard - Edit Profile")
     this.reset()
   }
 
@@ -111,6 +103,10 @@ export default class UserProfileEdit extends Vue {
     }
     await this.updateUserProfile(updatedProfile)
     this.$router.push("/main/profile")
+  }
+
+  asyncData({ store }) {
+    store.commit("helpers/setHeadingTitle", "Dashboard - Edit Profile")
   }
 }
 </script>

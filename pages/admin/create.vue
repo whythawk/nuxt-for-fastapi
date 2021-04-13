@@ -153,14 +153,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Mutation, Action } from "nuxt-property-decorator"
+import { Component, Vue, Action } from "nuxt-property-decorator"
 import { IUserProfileCreate } from "@/interfaces"
 
 @Component({
   middleware: "has-admin-access",
 })
 export default class AdminEditUser extends Vue {
-  @Mutation("helpers/setHeadingTitle") setHeadingTitle
   @Action("admin/createUser") createUser
   public fullName: string = ""
   public email: string = ""
@@ -200,8 +199,8 @@ export default class AdminEditUser extends Vue {
     this.$router.push("/admin")
   }
 
-  created() {
-    this.setHeadingTitle("Administration - Create User")
+  asyncData({ store }) {
+    store.commit("helpers/setHeadingTitle", "Administration - Create User")
   }
 }
 </script>

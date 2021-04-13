@@ -168,13 +168,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-  Action,
-  Getter,
-  Mutation,
-} from "nuxt-property-decorator"
+import { Component, Vue, Action, Getter } from "nuxt-property-decorator"
 import { IUserProfile, IUserProfileUpdate } from "@/interfaces"
 
 @Component({
@@ -185,7 +179,6 @@ export default class AdminEditUser extends Vue {
   @Action("admin/updateUser") updateUser
   @Getter("admin/adminUsers") userList
   @Getter("admin/adminOneUser") userOne
-  @Mutation("helpers/setHeadingTitle") setHeadingTitle
   public user: IUserProfile | null = null
   public fullName: string = ""
   public email: string = ""
@@ -239,10 +232,13 @@ export default class AdminEditUser extends Vue {
     // https://nuxtjs.org/docs/2.x/features/file-system-routing
     // https://github.com/ktsn/vuex-class
     // https://stackoverflow.com/a/54116702/295606
-    this.setHeadingTitle("Administration - Edit User")
     this.getUsers()
     this.user = this.userOne(+this.$route.params.id)
     this.setUser()
+  }
+
+  asyncData({ store }) {
+    store.commit("helpers/setHeadingTitle", "Administration - Edit User")
   }
 }
 </script>

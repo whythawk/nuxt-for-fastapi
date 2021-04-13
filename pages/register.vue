@@ -277,14 +277,13 @@
 </template>
 
 <script lang="ts">
-import { Action, Component, Mutation, Vue } from "nuxt-property-decorator"
+import { Action, Component, Vue } from "nuxt-property-decorator"
 import { IUserOpenProfileCreate } from "@/interfaces"
 
 @Component({
   middleware: "anonymous",
 })
 export default class Register extends Vue {
-  @Mutation("helpers/setHeadingTitle") setHeadingTitle
   @Action("main/createUserProfile") createMe
   public fullName: string = ""
   public email: string = ""
@@ -307,8 +306,8 @@ export default class Register extends Vue {
     this.$router.back()
   }
 
-  created() {
-    this.setHeadingTitle(null)
+  asyncData({ store }) {
+    store.commit("helpers/setHeadingTitle", null)
   }
 }
 </script>
